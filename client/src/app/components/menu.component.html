@@ -1,0 +1,45 @@
+<div class="row mt-3">
+  <div class="col d-flex justify-content-between align-items-center">
+    <div class="fs-1 fw-bold text-primary">Menu ({{getTotalCost()|currency}})</div>
+    <div>
+      <button type="button" class="btn btn-primary" [disabled]="emptyCart()" (click)="placeOrder()">
+        Place Order ({{getTotalItems()}})
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- each row display a single mene item -->
+@for (m of (menuItems$ | async); track m.id) {
+<div class="row mb-2">
+  <div class="col">
+    <div class="menu-item">
+      <div>
+        <button type="button" class="btn btn-warning" (click)="removeItem(m)">
+          <i class="bi bi-x-square"></i>
+        </button>
+      </div>
+      <div class="menu-details">
+        <div>Name: <span class="fw-bold"> {{ m.name }} </span> </div>
+        <div>Description:
+          <span class="fst-italic">
+            {{ m.description }}
+          </span>
+        </div>
+        <div>
+          Price: {{ m.price | currency }}
+        </div>
+        @if (getQuantity(m.id) > 0) {
+        <div class="text-danger fw-bold">Quantity: {{ getQuantity(m.id) }}</div>
+        }
+      </div>
+      <div class="menu-button-end">
+        <button type="button" class="btn btn-success" (click)="addItem(m)">
+          <i class="bi bi-plus-circle"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
